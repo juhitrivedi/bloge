@@ -7,7 +7,7 @@ const Hit = props => {
   const getSlug = hit.permalink.split('/');
   return (
     <React.Fragment>
-      <Link to={hit.post_type === 'post' ? getSlug[3]:hit.permalink}>{ hit.post_title} </Link> 
+      <Link to={getSlug[3]}>{ hit.post_title} </Link> 
     </React.Fragment>  
   );
 };

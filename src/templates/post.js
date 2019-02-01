@@ -206,11 +206,10 @@ BlogPost.defaultProps = {
   }),
   socialConfig: null,
   // yoastSeo: null
-  metaTags: PropTypes.shape({
-    lang: `en`,
-    meta: [],
-    // keywords: [],
-  }),
+  // metaTags: PropTypes.shape({
+  //   lang: `en`,
+  //   meta: [],
+  // }),
 }
 
 

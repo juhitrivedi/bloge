@@ -20,7 +20,7 @@
     "gatsby-plugin-react-helmet": "^3.0.2",
     "gatsby-plugin-sharp": "^2.0.14",
     "gatsby-plugin-sitemap": "^2.0.4",
-    "gatsby-source-filesystem": "^2.0.8",
+    "gatsby-source-filesystem": "^2.0.19",
     "gatsby-source-wordpress": "^3.0.25",
     "gatsby-transformer-sharp": "^2.1.8",
     "prop-types": "^15.6.2",

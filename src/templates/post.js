@@ -5,20 +5,17 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import PrevNext from '../components/PrevNext'
 import Share from '../components/Share';
-import SEO from "../components/seo"
+// import SEO from "../components/seo"
 
-const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig, yoastSeo, helmet }) => {
+const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socialConfig, yoastSeo, helmet }) => {
   return (
     <section className="section">
-      {/* {seo || ''}       */}
       {helmet || ''}      
-      {/* <Helmet title={`${title}`} /> */}
       {/* <SEO title={`${title}`} meta={yoastSeo} /> */}
-      <Helmet>
+      {/* <Helmet>
         <title>{`${title}`}</title>
         <meta name="description" content={yoastSeo} />
-      </Helmet>
-      <h4>Yoast Meta desc: {yoastSeo}</h4>
+      </Helmet> */}
       <div className="container content inner-content">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -97,19 +94,12 @@ const BlogPost = ({ data, pageContext }) => {
 		twitterHandle,
   };
 
-  // const yoastSeo = {
-  //   metadesc: post.yoast.metadesc 
-  // };
   const yoastSeo = post.yoast.metadesc
-
-  console.log('socialConfig:: ', socialConfig)
-  console.log('yoastSeo:: ', yoastSeo)
 
   return (
     <Layout>
       <BlogPostTemplate
         content={post.content}
-        // helmet={<Helmet title={`${post.title} | Blog`} />}
         helmet={<Helmet><title>{`${post.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>}
         // seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
         categories={post.categories}
@@ -140,9 +130,6 @@ BlogPost.propTypes = {
 	}),
   tags: PropTypes.arrayOf(PropTypes.string),
   yoastSeo: PropTypes.string,
-  // yoastSeo: PropTypes.shape({
-  //   metadesc: PropTypes.string
-  // })
 }
 
 BlogPost.defaultProps = {

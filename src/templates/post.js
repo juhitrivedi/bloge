@@ -209,7 +209,7 @@ BlogPost.defaultProps = {
   metaTags: PropTypes.shape({
     lang: `en`,
     meta: [],
-    keywords: [],
+    // keywords: [],
   }),
 }
 

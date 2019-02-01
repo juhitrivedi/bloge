@@ -1,19 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import Helmet from 'react-helmet'
+import Helmet from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import PrevNext from '../components/PrevNext'
 import Share from '../components/Share';
 import SEO from "../components/seo"
 
-const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig, yoastSeo }) => {
+const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig, yoastSeo, helmet }) => {
   return (
     <section className="section">
-      {seo || ''}      
-      {/* {helmet || ''} */}      
+      {/* {seo || ''}       */}
+      {helmet || ''}      
       {/* <Helmet title={`${title}`} /> */}
-      <SEO title={`${title}`} meta={yoastSeo} />
+      {/* <SEO title={`${title}`} meta={yoastSeo} /> */}
+      <Helmet>
+        <title>{`${title}`}</title>
+        <meta name="description" content={yoastSeo} />
+      </Helmet>
       <h4>Yoast Meta desc: {yoastSeo}</h4>
       <div className="container content inner-content">
         <div className="columns">
@@ -106,7 +110,8 @@ const BlogPost = ({ data, pageContext }) => {
       <BlogPostTemplate
         content={post.content}
         // helmet={<Helmet title={`${post.title} | Blog`} />}
-        seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
+        helmet={<Helmet><title>{`${post.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>}
+        // seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
         categories={post.categories}
         tags={post.tags}
         title={post.title}

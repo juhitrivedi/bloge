@@ -6,8 +6,12 @@ import Helmet from 'react-helmet'
 
 export const PageTemplate = ({ title, content, helmet, yoastSeo }) => {
   return (
-    <section className="section section--gradient">
-    <Helmet title={`${title}`} meta={yoastSeo} />
+    <section className="section section--gradient">    
+    {helmet || ''}     
+    {/* <Helmet>
+      <title>{`${title}`}</title>
+      <meta name="description" content={yoastSeo} />
+    </Helmet> */}
       <div className="container">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -39,7 +43,7 @@ const Page = ({ data }) => {
   console.log('yoastSeo:: ', yoastSeo)
   return (
     <Layout>
-      <PageTemplate title={page.title} content={page.content} helmet={<Helmet title={`${page.title} | Blog`} meta={yoastSeo} />} />
+      <PageTemplate title={page.title} content={page.content} helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} />
     </Layout>
   )
 }

@@ -4,10 +4,10 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import Helmet from 'react-helmet'
 
-export const PageTemplate = ({ title, content, helmet }) => {
+export const PageTemplate = ({ title, content, helmet, yoastSeo }) => {
   return (
     <section className="section section--gradient">
-    <Helmet title={`${title}`} />
+    <Helmet title={`${title}`} meta={yoastSeo} />
       <div className="container">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -34,16 +34,19 @@ PageTemplate.propTypes = {
 
 const Page = ({ data }) => {
   const { wordpressPage: page } = data
+  const yoastSeo = page.yoast.metadesc
 
+  console.log('yoastSeo:: ', yoastSeo)
   return (
     <Layout>
-      <PageTemplate title={page.title} content={page.content} helmet={<Helmet title={`${page.title} | Blog`} />} />
+      <PageTemplate title={page.title} content={page.content} helmet={<Helmet title={`${page.title} | Blog`} meta={yoastSeo} />} />
     </Layout>
   )
 }
 
 Page.propTypes = {
   data: PropTypes.object.isRequired,
+  yoastSeo: PropTypes.string,
 }
 
 export default Page
@@ -53,6 +56,12 @@ export const pageQuery = graphql`
     wordpressPage(id: { eq: $id }) {
       title
       content
+      yoast {
+        focuskw
+        title
+        metadesc
+        linkdex        
+      }
     }
   }
 `

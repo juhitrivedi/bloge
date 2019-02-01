@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import Layout from '../components/layout'
+import Helmet from 'react-helmet'
 
-export const PageTemplate = ({ title, content }) => {
+export const PageTemplate = ({ title, content, helmet }) => {
   return (
     <section className="section section--gradient">
+    <Helmet title={`${title}`} />
       <div className="container">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -35,7 +37,7 @@ const Page = ({ data }) => {
 
   return (
     <Layout>
-      <PageTemplate title={page.title} content={page.content} />
+      <PageTemplate title={page.title} content={page.content} helmet={<Helmet title={`${page.title} | Blog`} />} />
     </Layout>
   )
 }

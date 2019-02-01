@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+// import Helmet from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import PrevNext from '../components/PrevNext'
 import Share from '../components/Share';
+import SEO from "../components/seo"
 
-const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socialConfig }) => {
+const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig }) => {
   return (
     <section className="section">
-      {/* {helmet || ''} */}
+      {seo || ''}      
+      {/* {helmet || ''} */}      
+      {/* <Helmet title={`${title}`} /> */}
+      <SEO title={`${title}`} />
       <div className="container content inner-content">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -55,9 +59,7 @@ const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socia
                   </ul>
                 </div>
               ) : null}
-          </div>
-
-   
+          </div> 
             
             <PrevNext next={next} prev={prev} />
         </div>
@@ -96,7 +98,8 @@ const BlogPost = ({ data, pageContext }) => {
     <Layout>
       <BlogPostTemplate
         content={post.content}
-        helmet={<Helmet title={`${post.title} | Blog`} />}
+        // helmet={<Helmet title={`${post.title} | Blog`} />}
+        seo={<SEO title={`${post.title}`} /> }
         categories={post.categories}
         tags={post.tags}
         title={post.title}

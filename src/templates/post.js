@@ -102,7 +102,7 @@ const BlogPost = ({ data, pageContext }) => {
     twitterDesc: post.yoast.twitter_description || post.yoast.metadesc,
   }
 
-  console.log('metaTags::', metaTags);
+  // console.log('metaTags::', metaTags);
   return (
     <Layout>
       <BlogPostTemplate

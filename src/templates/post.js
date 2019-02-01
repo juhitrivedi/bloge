@@ -94,13 +94,20 @@ const BlogPost = ({ data, pageContext }) => {
 		twitterHandle,
   };
 
-  const yoastSeo = post.yoast.metadesc
+  // const yoastSeo = post.yoast.metadesc;
+  const metaTags = {
+    metaDesc: post.yoast.metadesc || data.site.siteMetadata.description,
+    twitterCreator: post.yoast.twitterCreator || data.site.siteMetadata.author,
+    twitterTitle: post.yoast.twitter_title || post.title,
+    twitterDesc: post.yoast.twitter_description || post.yoast.metadesc,
+  }
 
+  console.log('metaTags::', metaTags);
   return (
     <Layout>
       <BlogPostTemplate
         content={post.content}
-        helmet={<Helmet><title>{`${post.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>}
+        // helmet={<Helmet><title>{`${post.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>}
         // seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
         categories={post.categories}
         tags={post.tags}
@@ -110,7 +117,61 @@ const BlogPost = ({ data, pageContext }) => {
         next={pageContext.next}
         prev={pageContext.prev}
         socialConfig={socialConfig}
-        yoastSeo={yoastSeo}
+        // yoastSeo={yoastSeo}
+        helmet={
+          <Helmet
+            // htmlAttributes={{
+            //   lang: metaTags.lang,
+            // }}
+            title={post.title}
+            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+            meta={[
+              {
+                name: `description`,
+                content: metaTags.metaDesc,
+              },
+              {
+                property: `og:title`,
+                content: post.title,
+              },
+              {
+                property: `og:description`,
+                content: metaTags.metaDesc,
+              },
+              {
+                property: `og:type`,
+                content: `website`,
+              },
+              {
+                name: `twitter:card`,
+                content: `summary`,
+              },
+              {
+                name: `twitter:creator`,
+                // content: data.site.siteMetadata.author,
+                content: metaTags.twitterCreator,
+              },
+              {
+                name: `twitter:title`,
+                content: metaTags.twitterTitle,
+              },
+              {
+                name: `twitter:description`,
+                content: metaTags.twitterDesc,
+              },
+            ]
+            // .concat(
+            //   keywords.length > 0
+            //     ? {
+            //         name: `keywords`,
+            //         content: keywords.join(`, `),
+            //       }
+            //     : []
+            // )
+            // .concat(meta)
+            }
+          /> 
+        }
       />
     </Layout>
   )
@@ -129,7 +190,13 @@ BlogPost.propTypes = {
 		config: PropTypes.string.isRequired,
 	}),
   tags: PropTypes.arrayOf(PropTypes.string),
-  yoastSeo: PropTypes.string,
+  // yoastSeo: PropTypes.string,
+  metaTags: PropTypes.shape({
+    metaDesc: PropTypes.string,
+    twitterCreator: PropTypes.string,
+    twitterTitle: PropTypes.string,
+    twitterDesc: PropTypes.string,
+  }),
 }
 
 BlogPost.defaultProps = {
@@ -138,7 +205,12 @@ BlogPost.defaultProps = {
     prev: null,
   }),
   socialConfig: null,
-  yoastSeo: null
+  // yoastSeo: null
+  metaTags: PropTypes.shape({
+    lang: `en`,
+    meta: [],
+    keywords: [],
+  }),
 }
 
 
@@ -156,7 +228,8 @@ export const pageQuery = graphql`
     site {
 			siteMetadata {
         url
-				twitterHandle
+        twitterHandle
+        author
 			}
 		}
     wordpressPost(id: {eq: $id}) {
@@ -178,6 +251,18 @@ export const pageQuery = graphql`
         title
         metadesc
         linkdex
+        metakeywords
+        meta_robots_noindex
+        meta_robots_nofollow
+        meta_robots_adv
+        canonical
+        redirect
+        opengraph_title
+        opengraph_description
+        opengraph_image
+        twitter_title
+        twitter_description
+        twitter_image    
       }
     }
   }

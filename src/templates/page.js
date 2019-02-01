@@ -43,7 +43,11 @@ const Page = ({ data }) => {
   console.log('yoastSeo:: ', yoastSeo)
   return (
     <Layout>
-      <PageTemplate title={page.title} content={page.content} helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} />
+      <PageTemplate 
+        title={page.title} 
+        content={page.content} 
+        helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} 
+      />
     </Layout>
   )
 }

@@ -1,45 +1,29 @@
 require('dotenv').config()
 // const transformer = require("./src/utils/algolia");
+const queries = require('./src/utils/algolia')
 
-const query = `{
-  allWordpressPost {
-    edges {
-      node {
-        id
-        slug
-        modified
-        title
-        tags {
-          name
-          slug
-        }
-        categories {
-          name
-          slug
-        }
-      }
-      next {
-        id
-        slug  
-        title
-      }
-      previous {
-        id
-        slug    
-        title
-      }
-    }
-  }
-}`;
-const queries = [
-  {
-    query,
-    transformer: ({ data }) => data.allWordpressPost.edges.map(({ node }) => node)
-    // transformer: ({ data }) => {
-    //   return data.allWordpressPost.edges.reduce(transformer, []);
-    // }
-  }
-];
+// const query = `{
+//   allWordpressWpSearch {
+//     edges {
+//       node {
+//         id
+//         title
+//         url
+//         type
+//         subtype
+//       }
+//     }
+//   }
+// }`;
+// const queries = [
+//   {
+//     query,
+//     transformer: ({ data }) => data.allWordpressWpSearch.edges.map(({ node }) => node)
+//     // transformer: ({ data }) => {
+//     //   return data.allWordpressPost.edges.reduce(transformer, []);
+//     // }
+//   }
+// ];
 
 
 module.exports = {

@@ -4,7 +4,9 @@ import { Link } from "gatsby";
 
 const Hit = props => {
   const { hit } = props;
+  console.log(hit);
   const getSlug = hit.permalink.split('/');
+
   return (
     <React.Fragment>
       <Link to={getSlug[3]}>{ hit.post_title} </Link> 

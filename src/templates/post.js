@@ -7,13 +7,14 @@ import PrevNext from '../components/PrevNext'
 import Share from '../components/Share';
 import SEO from "../components/seo"
 
-const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig }) => {
+const BlogPostTemplate = ({  content, seo, categories, tags, title, next, prev, socialConfig, yoastSeo }) => {
   return (
     <section className="section">
       {seo || ''}      
       {/* {helmet || ''} */}      
       {/* <Helmet title={`${title}`} /> */}
-      <SEO title={`${title}`} />
+      <SEO title={`${title}`} meta={yoastSeo} />
+      <h4>Yoast Meta desc: {yoastSeo}</h4>
       <div className="container content inner-content">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -92,14 +93,20 @@ const BlogPost = ({ data, pageContext }) => {
 		twitterHandle,
   };
 
+  // const yoastSeo = {
+  //   metadesc: post.yoast.metadesc 
+  // };
+  const yoastSeo = post.yoast.metadesc
+
   console.log('socialConfig:: ', socialConfig)
+  console.log('yoastSeo:: ', yoastSeo)
 
   return (
     <Layout>
       <BlogPostTemplate
         content={post.content}
         // helmet={<Helmet title={`${post.title} | Blog`} />}
-        seo={<SEO title={`${post.title}`} /> }
+        seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
         categories={post.categories}
         tags={post.tags}
         title={post.title}
@@ -108,6 +115,7 @@ const BlogPost = ({ data, pageContext }) => {
         next={pageContext.next}
         prev={pageContext.prev}
         socialConfig={socialConfig}
+        yoastSeo={yoastSeo}
       />
     </Layout>
   )
@@ -125,7 +133,11 @@ BlogPost.propTypes = {
 		shortname: PropTypes.string.isRequired,
 		config: PropTypes.string.isRequired,
 	}),
-	tags: PropTypes.arrayOf(PropTypes.string),
+  tags: PropTypes.arrayOf(PropTypes.string),
+  yoastSeo: PropTypes.string,
+  // yoastSeo: PropTypes.shape({
+  //   metadesc: PropTypes.string
+  // })
 }
 
 BlogPost.defaultProps = {
@@ -133,7 +145,8 @@ BlogPost.defaultProps = {
     next: null,
     prev: null,
   }),
-	socialConfig: null,
+  socialConfig: null,
+  yoastSeo: null
 }
 
 
@@ -167,6 +180,12 @@ export const pageQuery = graphql`
       tags {
         name
         slug
+      }      
+      yoast {
+        focuskw
+        title
+        metadesc
+        linkdex
       }
     }
   }

@@ -5,19 +5,12 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import PrevNext from '../components/PrevNext'
 import Share from '../components/Share';
-// import SEO from "../components/seo"
 
-const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socialConfig, yoastSeo, helmet }) => {
-  // console.log(tags)
-  // console.log(tags.name);
+const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socialConfig, helmet }) => {
+
   return (
     <section className="section">
-      {helmet || ''}      
-      {/* <SEO title={`${title}`} meta={yoastSeo} /> */}
-      {/* <Helmet>
-        <title>{`${title}`}</title>
-        <meta name="description" content={yoastSeo} />
-      </Helmet> */}
+      {helmet || ''}  
       <div className="container content inner-content">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -75,7 +68,6 @@ const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socia
 BlogPostTemplate.propTypes = {
   content: PropTypes.node.isRequired,
   title: PropTypes.string,
-  // tags: PropTypes.arrayOf(PropTypes.string),
 	tags: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.object,
@@ -83,8 +75,7 @@ BlogPostTemplate.propTypes = {
 	  ]),
 }
 
-
-const BlogPost = ({ data, pageContext }) => {
+const BlogPost = ({ data, pageContext, lang }) => {
   const { 
     wordpressPost: post, 
 		site: {
@@ -102,21 +93,16 @@ const BlogPost = ({ data, pageContext }) => {
 		twitterHandle,
   };
 
-  // const yoastSeo = post.yoast.metadesc;
   const metaTags = {
     metaDesc: post.yoast.metadesc || data.site.siteMetadata.description,
     twitterCreator: post.yoast.twitterCreator || data.site.siteMetadata.author,
     twitterTitle: post.yoast.twitter_title || post.title,
     twitterDesc: post.yoast.twitter_description || post.yoast.metadesc,
   }
-
-  // console.log('metaTags::', metaTags);
   return (
     <Layout>
       <BlogPostTemplate
         content={post.content}
-        // helmet={<Helmet><title>{`${post.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>}
-        // seo={<SEO title={`${post.title}`} meta={yoastSeo} /> }
         categories={post.categories}
         tags={post.tags}
         title={post.title}
@@ -125,12 +111,9 @@ const BlogPost = ({ data, pageContext }) => {
         next={pageContext.next}
         prev={pageContext.prev}
         socialConfig={socialConfig}
-        // yoastSeo={yoastSeo}
         helmet={
           <Helmet
-            // htmlAttributes={{
-            //   lang: metaTags.lang,
-            // }}
+            htmlAttributes={lang}
             title={post.title}
             titleTemplate={`%s | ${data.site.siteMetadata.title}`}
             meta={[
@@ -198,13 +181,13 @@ BlogPost.propTypes = {
 		config: PropTypes.string.isRequired,
 	}),
   tags: PropTypes.arrayOf(PropTypes.string),
-  // yoastSeo: PropTypes.string,
   metaTags: PropTypes.shape({
     metaDesc: PropTypes.string,
     twitterCreator: PropTypes.string,
     twitterTitle: PropTypes.string,
     twitterDesc: PropTypes.string,
   }),
+  lang: PropTypes.string,
 }
 
 BlogPost.defaultProps = {
@@ -213,11 +196,7 @@ BlogPost.defaultProps = {
     prev: null,
   }),
   socialConfig: null,
-  // yoastSeo: null
-  // metaTags: PropTypes.shape({
-  //   lang: `en`,
-  //   meta: [],
-  // }),
+  lang: `en`,
 }
 
 

@@ -37,16 +37,79 @@ PageTemplate.propTypes = {
 }
 
 const Page = ({ data }) => {
-  const { wordpressPage: page } = data
-  const yoastSeo = page.yoast.metadesc
+  const { wordpressPage: page,
+		site: {
+			siteMetadata: { url, twitterHandle },
+    }, 
+  } = data
+  // const yoastSeo = page.yoast.metadesc
+  const metaTags = {
+    metaDesc: page.yoast.metadesc || data.site.siteMetadata.description,
+    twitterCreator: page.yoast.twitterCreator || data.site.siteMetadata.author,
+    twitterTitle: page.yoast.twitter_title || page.title,
+    twitterDesc: page.yoast.twitter_description || page.yoast.metadesc,
+  }
 
-  console.log('yoastSeo:: ', yoastSeo)
+  // console.log('yoastSeo:: ', yoastSeo)
   return (
     <Layout>
       <PageTemplate 
         title={page.title} 
         content={page.content} 
-        helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} 
+        // helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} 
+        helmet={
+          <Helmet
+            // htmlAttributes={{
+            //   lang: metaTags.lang,
+            // }}
+            title={page.title}
+            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+            meta={[
+              {
+                name: `description`,
+                content: metaTags.metaDesc,
+              },
+              {
+                property: `og:title`,
+                content: page.title,
+              },
+              {
+                property: `og:description`,
+                content: metaTags.metaDesc,
+              },
+              {
+                property: `og:type`,
+                content: `website`,
+              },
+              {
+                name: `twitter:card`,
+                content: `summary`,
+              },
+              {
+                name: `twitter:creator`,
+                // content: data.site.siteMetadata.author,
+                content: metaTags.twitterCreator,
+              },
+              {
+                name: `twitter:title`,
+                content: metaTags.twitterTitle,
+              },
+              {
+                name: `twitter:description`,
+                content: metaTags.twitterDesc,
+              },
+            ]
+            // .concat(
+            //   keywords.length > 0
+            //     ? {
+            //         name: `keywords`,
+            //         content: keywords.join(`, `),
+            //       }
+            //     : []
+            // )
+            // .concat(meta)
+            }
+          /> }
       />
     </Layout>
   )
@@ -54,13 +117,26 @@ const Page = ({ data }) => {
 
 Page.propTypes = {
   data: PropTypes.object.isRequired,
-  yoastSeo: PropTypes.string,
+  // yoastSeo: PropTypes.string,
+  metaTags: PropTypes.shape({
+    metaDesc: PropTypes.string,
+    twitterCreator: PropTypes.string,
+    twitterTitle: PropTypes.string,
+    twitterDesc: PropTypes.string,
+  }),
 }
 
 export default Page
 
 export const pageQuery = graphql`
   query PageById($id: String!) {
+    site {
+			siteMetadata {
+        url
+        twitterHandle
+        author
+			}
+		}
     wordpressPage(id: { eq: $id }) {
       title
       content
@@ -68,7 +144,19 @@ export const pageQuery = graphql`
         focuskw
         title
         metadesc
-        linkdex        
+        linkdex
+        metakeywords
+        meta_robots_noindex
+        meta_robots_nofollow
+        meta_robots_adv
+        canonical
+        redirect
+        opengraph_title
+        opengraph_description
+        opengraph_image
+        twitter_title
+        twitter_description
+        twitter_image        
       }
     }
   }

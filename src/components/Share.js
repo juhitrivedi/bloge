@@ -10,7 +10,9 @@ import {
 
 import { faFacebookF, faTwitter, faGooglePlusG, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 
-const Share = ({ socialConfig, tags }) => (
+const Share = ({ socialConfig, tags }) => {
+	const tagList = tags.map(name => name.name);
+	return(
 	<div className="post-social">
 		<FacebookShareButton
 			url={socialConfig.config.url}
@@ -26,7 +28,7 @@ const Share = ({ socialConfig, tags }) => (
 			title={socialConfig.config.title}
 			url={socialConfig.config.url}
 			via={socialConfig.twitterHandle.split('@').join('')}
-			hashtags={tags}
+			hashtags={tagList}
 		>
 			<span className="icon">
 				<FontAwesomeIcon icon={faTwitter} />
@@ -54,7 +56,8 @@ const Share = ({ socialConfig, tags }) => (
 			<span className="text">LinkedIn</span>
 		</LinkedinShareButton>
 	</div>
-);
+	)
+};
 
 Share.propTypes = {
 	socialConfig: PropTypes.shape({
@@ -65,10 +68,10 @@ Share.propTypes = {
 		}),
 	}).isRequired,
 	// tags: PropTypes.arrayOf(PropTypes.string),
-	tags: PropTypes.array,
+	// tags: PropTypes.array,
 };
-Share.defaultProps = {
-	tags: [null],
-};
+// Share.defaultProps = {
+// 	tags: [],
+// };
 
 export default Share;

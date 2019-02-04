@@ -8,6 +8,8 @@ import Share from '../components/Share';
 // import SEO from "../components/seo"
 
 const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socialConfig, yoastSeo, helmet }) => {
+  // console.log(tags)
+  // console.log(tags.name);
   return (
     <section className="section">
       {helmet || ''}      
@@ -73,6 +75,12 @@ const BlogPostTemplate = ({  content, categories, tags, title, next, prev, socia
 BlogPostTemplate.propTypes = {
   content: PropTypes.node.isRequired,
   title: PropTypes.string,
+  // tags: PropTypes.arrayOf(PropTypes.string),
+	tags: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.object,
+		PropTypes.array,
+	  ]),
 }
 
 

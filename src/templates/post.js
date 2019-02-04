@@ -80,7 +80,7 @@ const BlogPost = ({ data, pageContext }) => {
   const { 
     wordpressPost: post, 
 		site: {
-			siteMetadata: { url, twitterHandle },
+			siteMetadata: { url, twitterHandle, title },
     },
   } = data
 
@@ -229,6 +229,7 @@ export const pageQuery = graphql`
         url
         twitterHandle
         author
+        title
 			}
 		}
     wordpressPost(id: {eq: $id}) {

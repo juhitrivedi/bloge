@@ -32,8 +32,8 @@ module.exports = {
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`,    
 		twitterHandle: '@abc',
-		url: 'http://localhost:8000',
-		siteUrl: 'http://localhost:8000',
+		url: 'https://bloge.netlify.com',
+		siteUrl: 'https://bloge.netlify.com',
     socials: {
 			facebook: 'https://www.facebook.com/abc',
 			twitter: 'https://twitter.com/abc',

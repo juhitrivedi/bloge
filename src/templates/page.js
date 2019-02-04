@@ -5,13 +5,10 @@ import Layout from '../components/layout'
 import Helmet from 'react-helmet'
 
 export const PageTemplate = ({ title, content, helmet, yoastSeo }) => {
+  // console.log(helmet);
   return (
     <section className="section section--gradient">    
     {helmet || ''}     
-    {/* <Helmet>
-      <title>{`${title}`}</title>
-      <meta name="description" content={yoastSeo} />
-    </Helmet> */}
       <div className="container">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -39,10 +36,9 @@ PageTemplate.propTypes = {
 const Page = ({ data }) => {
   const { wordpressPage: page,
 		site: {
-			siteMetadata: { url, twitterHandle },
+			siteMetadata: { url, twitterHandle, title },
     }, 
   } = data
-  // const yoastSeo = page.yoast.metadesc
   const metaTags = {
     metaDesc: page.yoast.metadesc || data.site.siteMetadata.description,
     twitterCreator: page.yoast.twitterCreator || data.site.siteMetadata.author,
@@ -50,20 +46,17 @@ const Page = ({ data }) => {
     twitterDesc: page.yoast.twitter_description || page.yoast.metadesc,
   }
 
-  // console.log('yoastSeo:: ', yoastSeo)
   return (
     <Layout>
       <PageTemplate 
         title={page.title} 
         content={page.content} 
-        // helmet={<Helmet><title>{`${page.title}`}</title><meta name="description" content={yoastSeo} /></Helmet>} 
         helmet={
           <Helmet
             // htmlAttributes={{
             //   lang: metaTags.lang,
             // }}
             title={page.title}
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
             meta={[
               {
                 name: `description`,

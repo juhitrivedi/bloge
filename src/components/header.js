@@ -53,8 +53,7 @@ const Header = () => (
           <div className="siteLogo">
             <h1 style={{ margin: 0 }}>
               <Link to="/" style={{ color: `white`, textDecoration: `none` }}>
-                {' '}
-                <img src={Logo} alt="Site Logo" />{' '}
+                <img src={Logo} alt="Site Logo" />
               </Link>
             </h1>
           </div>

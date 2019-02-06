@@ -113,7 +113,7 @@ const BlogPost = ({ data, pageContext, lang }) => {
         socialConfig={socialConfig}
         helmet={
           <Helmet
-            htmlAttributes={lang}
+            // htmlAttributes={lang}
             title={post.title}
             titleTemplate={`%s | ${data.site.siteMetadata.title}`}
             meta={[

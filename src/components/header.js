@@ -59,7 +59,7 @@ const Header = () => (
           </div>
           <div className="menulist">
             <MainMenu menu={data.allWordpressWpApiMenusMenusItems} />
-              {/* <li><Link to="/">Home</Link></li>
+            {/* <li><Link to="/">Home</Link></li>
         <li>
           Pages 
           <ul>

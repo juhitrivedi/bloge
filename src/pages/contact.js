@@ -1,118 +1,174 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Layout from '../components/layout'
-
-export class Contact extends Component {
+class Contact extends React.Component {
   constructor() {
     super()
     this.state = {
-      fname: '',
-      lname: '',
-      email: '',
-      phone: '',
+      username: '',
+      emailid: '',
+      phoneno: '',
       message: '',
       mailSent: false,
-      error: null,
+      fields: {},
+      errors: {},
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
+
+    this.handleChange = this.handleChange.bind(this)
+    this.submitContactForm = this.submitContactForm.bind(this)
   }
 
-  handleSubmit(event) {
-    event.preventDefault()
-    // const data = new FormData(event.target)
-    const data = this.state
-    console.log(data)
-    fetch('/api/form-submit-url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+  handleChange(e) {
+    let fields = this.state.fields
+    fields[e.target.name] = e.target.value
+    this.setState({
+      fields,
     })
-      .then(result => {
-        this.setState({
-          mailSent: result.data.sent,
-        })
-      })
-      .catch(error => this.setState({ error: error.message }))
   }
+
+  submitContactForm(e) {
+    e.preventDefault()
+    if (this.validateForm()) {
+      let fields = this.state.fields
+      this.setState({ fields: fields })
+
+      fetch(' https://envf2jxvbt32f.x.pipedream.net/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fields),
+      })
+        .then(result => {
+          this.setState({
+            mailSent: true,
+          })
+        })
+        .catch(error => this.setState({ error: error.message }))
+      console.log(fields)
+    }
+  }
+
+  validateForm() {
+    let fields = this.state.fields
+    let errors = {}
+    let formIsValid = true
+
+    if (!fields['username']) {
+      formIsValid = false
+      errors['username'] = '*Please enter your username.'
+    }
+
+    if (typeof fields['username'] !== 'undefined') {
+      if (!fields['username'].match(/^[a-zA-Z ]*$/)) {
+        formIsValid = false
+        errors['username'] = '*Please enter alphabet characters only.'
+      }
+    }
+
+    if (!fields['emailid']) {
+      formIsValid = false
+      errors['emailid'] = '*Please enter your email-ID.'
+    }
+
+    if (typeof fields['emailid'] !== 'undefined') {
+      //regular expression for email validation
+      var pattern = new RegExp(
+        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+      )
+      if (!pattern.test(fields['emailid'])) {
+        formIsValid = false
+        errors['emailid'] = '*Please enter valid email-ID.'
+      }
+    }
+
+    if (!fields['phoneno']) {
+      formIsValid = false
+      errors['phoneno'] = '*Please enter your mobile no.'
+    }
+
+    if (typeof fields['phoneno'] !== 'undefined') {
+      if (!fields['phoneno'].match(/^[0-9]{10}$/)) {
+        formIsValid = false
+        errors['phoneno'] = '*Please enter valid mobile no.'
+      }
+    }
+
+    this.setState({
+      errors: errors,
+    })
+    return formIsValid
+  }
+
   render() {
     return (
       <Layout>
         <div className="wrap-contact">
+          <span className="contact-form-title">Contact Us</span>
           <form
+            method="post"
             className="contact-form validate-form"
-            onSubmit={this.handleSubmit}
+            name="contactForm"
+            onSubmit={this.submitContactForm}
           >
-            <span className="contact-form-title">Contact Us</span>
-            <label className="label-inputs">
-              Your Name{' '}
-              <span style={{ color: 'red', fontWeight: 'bold' }}>*</span>
-            </label>
-            <div className="wrap-inputs rs1 validate-input">
-              <input
-                id="first-name"
-                className="inputs"
-                type="text"
-                name="first-name"
-                placeholder="First name"
-                value={this.state.fname}
-                onChange={e => this.setState({ fname: e.target.value })}
-              />
-              <span className="focus-inputs" />
+            <div className="onethird">
+              <label className="label-inputs">
+                Name
+                <span style={{ color: 'red', fontWeight: 'bold' }}> * </span>
+              </label>
+              <div className="wrap-inputs  validate-input">
+                <input
+                  type="text"
+                  className="inputs"
+                  name="username"
+                  value={this.state.fields.username}
+                  onChange={this.handleChange}
+                />
+                <span className="focus-inputs" />
+              </div>
+              <div className="errorMsg">{this.state.errors.username}</div>
             </div>
-            <div className="wrap-inputs rs1 validate-input">
-              <input
-                className="inputs"
-                type="text"
-                name="last-name"
-                placeholder="Last name"
-                value={this.state.lname}
-                onChange={e => this.setState({ lname: e.target.value })}
-              />
-              <span className="focus-inputs" />
-              {/* <span className="btn-hide-validate">x</span> */}
+            <div className="onethird">
+              <label className="label-inputs">
+                Email ID
+                <span style={{ color: 'red', fontWeight: 'bold' }}> * </span>
+              </label>
+              <div className="wrap-inputs  validate-input">
+                <input
+                  type="text"
+                  className="inputs"
+                  name="emailid"
+                  value={this.state.fields.emailid}
+                  onChange={this.handleChange}
+                />
+                <span className="focus-inputs" />
+              </div>
+              <div className="errorMsg">{this.state.errors.emailid}</div>
             </div>
-            <label className="label-inputs">
-              Email Address{' '}
-              <span style={{ color: 'red', fontWeight: 'bold' }}>*</span>
-            </label>
-            <div className="wrap-inputs validate-input">
-              <input
-                id="email"
-                className="inputs"
-                type="text"
-                name="email"
-                placeholder="Eg. example@email.com"
-                value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
-              />
-              <span className="focus-inputs" />
+            <div className="onethird">
+              <label className="label-inputs">
+                Phone No
+                <span style={{ color: 'red', fontWeight: 'bold' }}> * </span>
+              </label>
+              <div className="wrap-inputs  validate-input">
+                <input
+                  type="text"
+                  className="inputs"
+                  name="phoneno"
+                  value={this.state.fields.phoneno}
+                  onChange={this.handleChange}
+                />
+                <span className="focus-inputs" />
+              </div>
+              <div className="errorMsg">{this.state.errors.phoneno}</div>
             </div>
-            <label className="label-inputs">Phone Number</label>
-            <div className="wrap-inputs">
-              <input
-                id="phone"
-                className="inputs"
-                type="text"
-                name="phone"
-                placeholder="Eg. +1 800 000000"
-                value={this.state.phone}
-                onChange={e => this.setState({ phone: e.target.value })}
-              />
-              <span className="focus-inputs" />
-            </div>
-            <label className="label-inputs">
-              Message{' '}
-              <span style={{ color: 'red', fontWeight: 'bold' }}>*</span>
-            </label>
-            <div className="wrap-inputs validate-input">
+            <label className="label-inputs">Message</label>
+            <div className="wrap-inputs  validate-input">
               <textarea
-                id="message"
                 className="inputs"
                 name="message"
                 placeholder="Please enter your comments..."
-                value={this.state.message}
-                onChange={e => this.setState({ message: e.target.value })}
+                value={this.state.fields.message}
+                onChange={this.handleChange}
               />
               <span className="focus-inputs" />
             </div>
@@ -121,7 +177,7 @@ export class Contact extends Component {
                 <span>Submit</span>
               </button>
             </div>
-            <div>
+            <div className="successMsg">
               {this.state.mailSent && <div>Thank you for contcting us.</div>}
             </div>
           </form>

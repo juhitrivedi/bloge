@@ -1415,7 +1415,7 @@ li {}
   position: relative;
   border: 1px solid #e6e6e6;
   border-radius: 2px;
-  margin-bottom: 34px
+  margin-bottom: 10px
 }
 
 .rs1.wrap-inputs {
@@ -1451,6 +1451,27 @@ li {}
   min-height: 162px;
   padding-top: 19px;
   padding-bottom: 15px
+}
+
+.wrap-contact .onethird {
+  width: 31%;
+}
+
+.wrap-contact .errorMsg {
+  color: red;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+
+.wrap-contact .successMsg {
+  text-align: center;
+  padding: 15px 5px;
+  width: 100%;
+  margin: 30px 0 0;
+  background: green;
+  color: #fff;
 }
 
 .focus-inputs {
@@ -1499,7 +1520,7 @@ li {}
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: -4px
+  margin-top: 34px
 }
 
 .contact-form-btn {

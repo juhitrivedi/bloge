@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { StaticQuery, graphql } from 'gatsby'
 
 import Header from './header'
@@ -33,7 +32,10 @@ const Layout = ({ children }) => (
         <div className="container">
           {children}
           <footer>
-            © {new Date().getFullYear()}, Built with <b><a href="https://www.gatsbyjs.org">Gatsby</a></b>
+            © {new Date().getFullYear()}, Built with{' '}
+            <b>
+              <a href="https://www.gatsbyjs.org">Gatsby</a>
+            </b>
           </footer>
         </div>
       </>

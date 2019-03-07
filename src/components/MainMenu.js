@@ -1,6 +1,5 @@
-import { Link, StaticQuery, graphql } from 'gatsby'
+import { Link } from 'gatsby'
 import React from 'react'
-import search from '../pages/search'
 
 class MainMenu extends React.Component {
   render() {

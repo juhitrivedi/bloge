@@ -41,6 +41,7 @@ class Contact extends React.Component {
         .then(response => response.json())
         .then(responseData => {
           console.log(responseData)
+          this.setState({ fields: fields, mailSent: true })
         })
         .catch(error => this.setState({ error: error.message }))
       console.log(fields)

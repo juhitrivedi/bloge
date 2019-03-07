@@ -179,7 +179,7 @@ class Contact extends React.Component {
             </div>
             <div className="formSuccess">
               {this.state.mailSent && (
-                <div className="successMsg">Thank you for contcting us.</div>
+                <div className="successMsg">Thank you for contacting us.</div>
               )}
             </div>
           </form>

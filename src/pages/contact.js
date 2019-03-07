@@ -31,13 +31,16 @@ class Contact extends React.Component {
       let fields = this.state.fields
       this.setState({ fields: fields })
 
-      fetch(' https://envf2jxvbt32f.x.pipedream.net/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(fields),
-      })
+      fetch(
+        'http://gatsbywp.dev1.in/wp-json/gatsbywp/v1/add_entry?mdtest=1&key=itsasecret',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(fields),
+        }
+      )
         .then(result => {
           this.setState({
             mailSent: true,

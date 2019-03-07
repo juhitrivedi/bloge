@@ -177,8 +177,10 @@ class Contact extends React.Component {
                 <span>Submit</span>
               </button>
             </div>
-            <div className="successMsg">
-              {this.state.mailSent && <div>Thank you for contcting us.</div>}
+            <div className="formSuccess">
+              {this.state.mailSent && (
+                <div className="successMsg">Thank you for contcting us.</div>
+              )}
             </div>
           </form>
         </div>
